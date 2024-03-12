@@ -12,4 +12,12 @@ public class UnitTest1
 
         Assert.AreEqual(24, calculator.Calculate(4));
     }
+
+    [TestMethod]
+    public void TestMethod2()
+    {
+        FactorialCalculator calculator = new FactorialCalculator();
+
+        Assert.AreNotEqual(3, calculator.Calculate(3));
+    }
 }
