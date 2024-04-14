@@ -14,12 +14,7 @@ internal class ApplicationLogic : ILogicApi
     public void RentBook(IBook book, IUser user, int quantity = 1)
     {
         var updatedQuantity = api.GetState(book.BookId).Quantity - quantity;
-        
-        if (updatedQuantity < 0)
-        {
-            throw new Exception("Tried to rent more books than available quantity.");
-        }
-        
+        if (updatedQuantity < 0) updatedQuantity = 0;
         api.UpdateState(book.BookId, updatedQuantity);
         api.AddEvent(0, user.UserId, book.BookId, IDataApi.EventMode.Rent, DateTime.Now);
     }
