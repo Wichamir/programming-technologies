@@ -3,7 +3,7 @@ namespace Data;
 public interface IEvent
 {
     public int EventId { get; }
-    public int UserId { get; }
-    public int BookId { get; }
-    public DateTime OccurenceTime { get; }
+    public int UserId { get; set; }
+    public int BookId { get; set; }
+    public DateTime OccurenceTime { get; set; }
 }

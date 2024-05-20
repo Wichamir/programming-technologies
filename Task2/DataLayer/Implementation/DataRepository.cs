@@ -9,15 +9,17 @@ internal class DataRepository : IDataApi
     private readonly List<IUser> users = new();
     private readonly List<IEvent> events = new();
     private readonly List<IBook> catalog = new();
-    private readonly List<IState> states = new();
 
     public DataRepository(string connectionString)
     {
         this.connectionString = connectionString;
+        if(connectionString == "")
+        {
+            return;
+        }
         LoadUsers();
         LoadEvents();
         LoadCatalog();
-        LoadStates();
     }
 
     public void LoadUsers()
@@ -54,20 +56,7 @@ internal class DataRepository : IDataApi
 
             foreach (var book in books)
             {
-                this.catalog.Add(new Implementation.Book(book.BookId, book.Title, book.Fee));
-            }
-        }
-    }
-
-    public void LoadStates()
-    {
-        using (DataClassesDataContext db = new(connectionString))
-        {
-            IQueryable<Data.State> states = from state in db.States select state;
-
-            foreach (var state in states)
-            {
-                this.states.Add(new Implementation.State(state.BookId, state.Quantity));
+                this.catalog.Add(new Implementation.Book(book.BookId, book.Title, book.State, book.Fee));
             }
         }
     }
@@ -102,24 +91,12 @@ internal class DataRepository : IDataApi
         return users.Find(u => userId == u.UserId);
     }
 
-    public void AddEvent(int eventId, int userId, int bookId, IDataApi.EventMode mode, DateTime occurrenceTime)
+    public void AddEvent(int eventId, int userId, int bookId, DateTime occurrenceTime)
     {
         using (DataClassesDataContext db = new(connectionString))
         {
             IEvent @event;
-
-            switch (mode)
-            {
-                case IDataApi.EventMode.Rent:
-                    @event = new RentBookEvent(eventId, userId, bookId, occurrenceTime);
-                    break;
-                case IDataApi.EventMode.Return:
-                    @event = new ReturnBookEvent(eventId, userId, bookId, occurrenceTime);
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-
+            @event = new RentBookEvent(eventId, userId, bookId, occurrenceTime);
             events.Add(@event);
             db.Events.InsertOnSubmit(new Data.Event { EventId = eventId, UserID = userId, BookId = bookId, OccuranceTime = occurrenceTime });
             db.SubmitChanges();
@@ -145,11 +122,11 @@ internal class DataRepository : IDataApi
         return events.Find(e => eventId == e.EventId);
     }
 
-    public void AddBook(int bookId, string title, float fee = 0f)
+    public void AddBook(int bookId, string title, int state, float fee = 0f)
     {
         using (DataClassesDataContext db = new(connectionString))
         {
-            var newBook = new Book(bookId, title, fee);
+            var newBook = new Book(bookId, title, state, fee);
             catalog.Add(newBook);
             db.Books.InsertOnSubmit(new Data.Book { BookId = bookId, Title = title, Fee = fee });
             db.SubmitChanges();
@@ -173,51 +150,5 @@ internal class DataRepository : IDataApi
     public IBook? GetBook(int bookId)
     {
         return catalog.Find(b => bookId == b.BookId);
-    }
-
-    public void UpdateState(int bookId, int quantity)
-    {
-        using (DataClassesDataContext db = new(connectionString))
-        {
-            var state = states.Find(s => s.BookId == bookId);
-
-            if (state != null)
-            {
-                state.Quantity = quantity;
-                var dbState = db.States.FirstOrDefault(s => s.BookId == bookId);
-                if (dbState != null)
-                {
-                    dbState.Quantity = quantity;
-                    db.SubmitChanges();
-                }
-            }
-            else
-            {
-                states.Add(new State(bookId, quantity));
-                db.States.InsertOnSubmit(new Data.State { BookId = bookId, Quantity = quantity });
-                db.SubmitChanges();
-            }
-        }
-    }
-
-    public IState GetState(int bookId)
-    {
-        var state = states.Find(s => s.BookId == bookId);
-
-        if (state != null)
-        {
-            return state;
-        }
-
-        state = new State(bookId, 0);
-        states.Add(state);
-
-        using (DataClassesDataContext db = new(connectionString))
-        {
-            db.States.InsertOnSubmit(new Data.State { BookId = bookId, Quantity = 0 });
-            db.SubmitChanges();
-        }
-
-        return state;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Service;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.ViewModel
 {
-    public class ViewModel<T> : INotifyPropertyChanged where T : new()
+    internal abstract class ViewModel<T> : INotifyPropertyChanged where T : Model.IModel, new()
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -18,13 +19,13 @@ namespace Presentation.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public RelayCommand CreateCommand => new RelayCommand(execute => Create());
+        public RelayCommand AddCommand => new RelayCommand(execute => Add());
+        public RelayCommand RemoveCommand => new RelayCommand(execute => Remove());
         public RelayCommand UpdateCommand => new RelayCommand(execute => Update());
-        public RelayCommand DeleteCommand => new RelayCommand(execute => Delete());
 
         public ObservableCollection<T> Items { get; set; } = new ObservableCollection<T>();
 
-        private T selectedItem = new();
+        private T selectedItem;
         public T SelectedItem
         {
             get => selectedItem;
@@ -35,19 +36,31 @@ namespace Presentation.ViewModel
             }
         }
 
-        public virtual void Create()
+        private IServiceApi serviceApi;
+
+        public ViewModel()
         {
-            Items.Add(new T());
+            serviceApi = IServiceApi.CreateDataService("");
         }
 
-        public virtual void Update()
+        public void Add()
         {
-            
+            var newItem = new T
+            {
+                ServiceApi = serviceApi
+            };
+            Items.Add(newItem);
         }
 
-        public virtual void Delete()
+        public void Remove()
         {
-            System.Console.WriteLine("Item deleted");
+            SelectedItem.Remove();
+            Items.Remove(SelectedItem);
+        }
+
+        public void Update()
+        {
+            SelectedItem.Update();
         }
     }
 }

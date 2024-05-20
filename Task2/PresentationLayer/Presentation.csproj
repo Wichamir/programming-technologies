@@ -11,4 +11,8 @@
     <Page Include="App.xaml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ServiceLayer\Service.csproj" />
+  </ItemGroup>
+
 </Project>

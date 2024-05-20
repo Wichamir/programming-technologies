@@ -20,15 +20,12 @@ namespace Service
         void RemoveUser(int userId);
         IUser? GetUser(int userId);
 
-        void AddEvent(int eventId, int userId, int bookId, IDataApi.EventMode mode, DateTime occurrenceTime);
+        void AddEvent(int eventId, int userId, int bookId, DateTime occurrenceTime);
         void RemoveEvent(int eventId);
         IEvent? GetEvent(int eventId);
 
-        void AddBook(int bookId, string title, float fee = 0f);
+        void AddBook(int bookId, string title, int state, float fee = 0f);
         void RemoveBook(int bookId);
         IBook? GetBook(int bookId);
-
-        void UpdateState(int bookId, int quantity);
-        IState GetState(int bookId);
     }
 }

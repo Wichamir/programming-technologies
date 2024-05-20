@@ -20,9 +20,8 @@
         <TextBox HorizontalAlignment="Left" Margin="10,236,0,0" TextWrapping="Wrap" Text="{Binding SelectedItem.UserId, Mode=TwoWay}" VerticalAlignment="Top" Width="115"/>
         <TextBox HorizontalAlignment="Left" Margin="10,254,0,0" TextWrapping="Wrap" Text="{Binding SelectedItem.FirstName, Mode=TwoWay}" VerticalAlignment="Top" Width="115"/>
         <TextBox HorizontalAlignment="Left" Margin="10,272,0,0" TextWrapping="Wrap" Text="{Binding SelectedItem.LastName, Mode=TwoWay}" VerticalAlignment="Top" Width="115"/>
-        <Button Content="Create" HorizontalAlignment="Left" Margin="125,236,0,0" VerticalAlignment="Top" Width="115" Height="18" Command="{Binding CreateCommand, Mode=OneWay}"/>
-        <!--<Button Content="Update" HorizontalAlignment="Left" Margin="125,254,0,0" VerticalAlignment="Top" Width="115" Height="18" Command="{Binding UpdateCommand, Mode=OneWay}"/>-->
-        <Button Content="Delete" HorizontalAlignment="Left" Margin="125,272,0,0" VerticalAlignment="Top" Width="115" Height="18" Command="{Binding DeleteCommand, Mode=OneWay}"/>
+        <Button Content="Create" HorizontalAlignment="Left" Margin="125,236,0,0" VerticalAlignment="Top" Width="115" Height="18" Command="{Binding AddCommand, Mode=OneWay}"/>
+        <Button Content="Delete" HorizontalAlignment="Left" Margin="125,254,0,0" VerticalAlignment="Top" Width="115" Height="18" Command="{Binding RemoveCommand, Mode=OneWay}"/>
 
     </Grid>
 </UserControl>

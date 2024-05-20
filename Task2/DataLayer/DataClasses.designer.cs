@@ -38,9 +38,6 @@ namespace Data
     partial void InsertBook(Book instance);
     partial void UpdateBook(Book instance);
     partial void DeleteBook(Book instance);
-    partial void InsertState(State instance);
-    partial void UpdateState(State instance);
-    partial void DeleteState(State instance);
     #endregion
 		
 		public DataClassesDataContext(string connection) : 
@@ -88,14 +85,6 @@ namespace Data
 			get
 			{
 				return this.GetTable<Book>();
-			}
-		}
-		
-		public System.Data.Linq.Table<State> States
-		{
-			get
-			{
-				return this.GetTable<State>();
 			}
 		}
 	}
@@ -356,6 +345,8 @@ namespace Data
 		
 		private float _Fee;
 		
+		private int _State;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -366,6 +357,8 @@ namespace Data
     partial void OnTitleChanged();
     partial void OnFeeChanging(float value);
     partial void OnFeeChanged();
+    partial void OnStateChanging(int value);
+    partial void OnStateChanged();
     #endregion
 		
 		public Book()
@@ -433,88 +426,22 @@ namespace Data
 			}
 		}
 		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="")]
-	public partial class State : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _BookId;
-		
-		private int _Quantity;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnBookIdChanging(int value);
-    partial void OnBookIdChanged();
-    partial void OnQuantityChanging(int value);
-    partial void OnQuantityChanged();
-    #endregion
-		
-		public State()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BookId", IsPrimaryKey=true)]
-		public int BookId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_State")]
+		public int State
 		{
 			get
 			{
-				return this._BookId;
+				return this._State;
 			}
 			set
 			{
-				if ((this._BookId != value))
+				if ((this._State != value))
 				{
-					this.OnBookIdChanging(value);
+					this.OnStateChanging(value);
 					this.SendPropertyChanging();
-					this._BookId = value;
-					this.SendPropertyChanged("BookId");
-					this.OnBookIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Quantity")]
-		public int Quantity
-		{
-			get
-			{
-				return this._Quantity;
-			}
-			set
-			{
-				if ((this._Quantity != value))
-				{
-					this.OnQuantityChanging(value);
-					this.SendPropertyChanging();
-					this._Quantity = value;
-					this.SendPropertyChanged("Quantity");
-					this.OnQuantityChanged();
+					this._State = value;
+					this.SendPropertyChanged("State");
+					this.OnStateChanged();
 				}
 			}
 		}

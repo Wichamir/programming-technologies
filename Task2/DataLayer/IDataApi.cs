@@ -19,14 +19,11 @@ public interface IDataApi
     public void RemoveUser(int userId);
     public IUser? GetUser(int userId);
     
-    public void AddEvent(int eventId, int userId, int bookId, EventMode mode, DateTime occurrenceTime);
+    public void AddEvent(int eventId, int userId, int bookId, DateTime occurrenceTime);
     public void RemoveEvent(int eventId);
     public IEvent? GetEvent(int eventId);
 
-    public void AddBook(int bookId, string title, float fee = 0f);
+    public void AddBook(int bookId, string title, int state, float fee = 0f);
     public void RemoveBook(int bookId);
     public IBook? GetBook(int bookId);
-
-    public void UpdateState(int bookId, int quantity);
-    public IState GetState(int bookId);
 }
