@@ -9,6 +9,8 @@ internal class RentBookEvent : IEvent
     public int BookId { get; set; }
     public DateTime OccurenceTime { get; }
 
+    public RentBookEvent() { }
+
     public RentBookEvent(int eid, int uid, int bid, DateTime time)
     {
         EventId = eid;

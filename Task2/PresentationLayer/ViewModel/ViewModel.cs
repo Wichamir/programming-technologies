@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Presentation.ViewModel
 {
-    class ViewModel<T> : INotifyPropertyChanged
+    public class ViewModel<T> : INotifyPropertyChanged where T : new()
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -23,17 +24,28 @@ namespace Presentation.ViewModel
 
         public ObservableCollection<T> Items { get; set; } = new ObservableCollection<T>();
 
-        public void Create()
+        private T selectedItem = new();
+        public T SelectedItem
         {
-            System.Console.WriteLine("Item created");
+            get => selectedItem;
+            set
+            {
+                selectedItem = value;
+                OnPropertyChanged(nameof(SelectedItem));
+            }
         }
 
-        public void Update()
+        public virtual void Create()
         {
-            System.Console.WriteLine("Item updated");
+            Items.Add(new T());
         }
 
-        public void Delete()
+        public virtual void Update()
+        {
+            
+        }
+
+        public virtual void Delete()
         {
             System.Console.WriteLine("Item deleted");
         }

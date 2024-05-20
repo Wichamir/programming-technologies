@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.ViewModel
 {
-    class UserListViewModel : ViewModel<Model.Reader>
+    public class UserListViewModel : ViewModel<Model.Reader>
     {
     }
 }

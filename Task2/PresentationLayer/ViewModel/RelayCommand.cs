@@ -7,10 +7,10 @@ using System.Windows.Input;
 
 namespace Presentation.ViewModel
 {
-    class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
-        private readonly Action<object> execute;
-        private readonly Func<object, bool>? canExecute;
+        private Action<object> execute;
+        private Func<object, bool>? canExecute;
 
         public RelayCommand(Action<object> execute, Func<object, bool>? canExecute = null)
         {
