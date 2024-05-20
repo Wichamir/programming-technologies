@@ -4,9 +4,9 @@ namespace Data;
 
 public interface IDataApi
 {
-    public static IDataApi CreateDataRepository()
+    public static IDataApi CreateDataRepository(string connectionString)
     {
-        return new DataRepository();
+        return new DataRepository(connectionString);
     }
 
     enum EventMode

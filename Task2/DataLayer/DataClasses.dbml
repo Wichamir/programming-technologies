@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="" Member="Events">
+    <Type Name="Event">
+      <Column Name="EventId" Type="System.Int32" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" CanBeNull="false" />
+      <Column Name="BookId" Type="System.Int32" CanBeNull="false" />
+      <Column Name="OccuranceTime" Type="System.DateTime" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="Users">
+    <Type Name="User">
+      <Column Name="UserId" Type="System.Int32" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" CanBeNull="false" />
+      <Column Name="LastName" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="Books">
+    <Type Name="Book">
+      <Column Name="BookId" Type="System.Int32" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" CanBeNull="false" />
+      <Column Name="Fee" Type="System.Single" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="" Member="States">
+    <Type Name="State">
+      <Column Name="BookId" Type="System.Int32" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Quantity" Type="System.Int32" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

@@ -1,4 +1,4 @@
-namespace Data.Implementation;
+namespace Presentation.Model;
 
 internal class State : IState
 {
