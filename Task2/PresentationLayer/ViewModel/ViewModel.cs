@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.ViewModel
 {
-    internal abstract class ViewModel<T> : INotifyPropertyChanged where T : Model.IModel, new()
+    public abstract class ViewModel<T> : INotifyPropertyChanged where T : Model.IModel, new()
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

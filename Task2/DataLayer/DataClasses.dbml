@@ -19,7 +19,7 @@
       <Column Name="BookId" Type="System.Int32" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Title" Type="System.String" CanBeNull="false" />
       <Column Name="Fee" Type="System.Single" CanBeNull="false" />
-      <Column Member="State" Type="System.Int32" CanBeNull="false" />
+      <Column Name="State" Type="System.Int32" CanBeNull="false" />
     </Type>
   </Table>
 </Database>
