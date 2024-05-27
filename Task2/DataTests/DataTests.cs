@@ -7,10 +7,12 @@ namespace DataTests
     {
         public string GetConnectionString()
         {
-            string RPath = @"Database.mdf";
-            string RootPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
-            string DatabasePath = Path.Combine(RootPath, RPath);
-            return $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={DatabasePath};Integrated Security = True;";
+            string _DBRelativePath = @"Database.mdf";
+            string _TestingWorkingFolder = Environment.CurrentDirectory;
+            string _DBPath = Path.Combine(_TestingWorkingFolder, _DBRelativePath);
+            FileInfo _databaseFile = new FileInfo(_DBPath);
+            Assert.IsTrue(_databaseFile.Exists, $"{Environment.CurrentDirectory}");
+            return $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={_DBPath};Integrated Security = True; Connect Timeout = 30;";
         }
 
         [TestMethod]
