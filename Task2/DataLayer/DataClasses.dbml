@@ -1,25 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Table Name="" Member="Events">
-    <Type Name="Event">
-      <Column Name="EventId" Type="System.Int32" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="UserID" Type="System.Int32" CanBeNull="false" />
-      <Column Name="BookId" Type="System.Int32" CanBeNull="false" />
-      <Column Name="OccuranceTime" Type="System.DateTime" CanBeNull="false" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Database" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.Book" Member="Books" AccessModifier="Internal">
+    <Type Name="Book" AccessModifier="Internal">
+      <Column Name="BookId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Fee" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
+      <Column Name="State" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Book_Event" Member="Events" ThisKey="BookId" OtherKey="BookId" Type="Event" />
     </Type>
   </Table>
-  <Table Name="" Member="Users">
-    <Type Name="User">
-      <Column Name="UserId" Type="System.Int32" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="FirstName" Type="System.String" CanBeNull="false" />
-      <Column Name="LastName" Type="System.String" CanBeNull="false" />
+  <Table Name="dbo.Event" Member="Events" AccessModifier="Internal">
+    <Type Name="Event" AccessModifier="Internal">
+      <Column Name="EventId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BookId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OccuranceTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Book_Event" Member="Book" ThisKey="BookId" OtherKey="BookId" Type="Book" IsForeignKey="true" />
+      <Association Name="User_Event" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="" Member="Books">
-    <Type Name="Book">
-      <Column Name="BookId" Type="System.Int32" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Title" Type="System.String" CanBeNull="false" />
-      <Column Name="Fee" Type="System.Single" CanBeNull="false" />
-      <Column Name="State" Type="System.Int32" CanBeNull="false" />
+  <Table Name="dbo.[User]" Member="Users" AccessModifier="Internal">
+    <Type Name="User" AccessModifier="Internal">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="User_Event" Member="Events" ThisKey="UserId" OtherKey="UserId" Type="Event" />
     </Type>
   </Table>
 </Database>

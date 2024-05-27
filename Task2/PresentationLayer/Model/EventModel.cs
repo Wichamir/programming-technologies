@@ -36,9 +36,6 @@ internal class Event : IEvent
 
     public void Update()
     {
-        var @event = ServiceApi.GetEvent(EventId);
-        @event.UserId = UserId;
-        @event.BookId = BookId;
-        @event.OccurenceTime = OccurenceTime;
+        ServiceApi.UpdateEvent(EventId, UserId, BookId, OccurenceTime);
     }
 }

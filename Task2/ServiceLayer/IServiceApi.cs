@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Data;
-using Service.Implementation;
 
 namespace Service
 {
@@ -18,14 +14,25 @@ namespace Service
 
         void AddUser(int userId, string firstName, string lastName);
         void RemoveUser(int userId);
-        IUser? GetUser(int userId);
+        void UpdateUser(int userId, string firstName, string lastName);
 
         void AddEvent(int eventId, int userId, int bookId, DateTime occurrenceTime);
         void RemoveEvent(int eventId);
-        IEvent? GetEvent(int eventId);
+        void UpdateEvent(int eventId, int userId, int bookId, DateTime occurrenceTime);
 
         void AddBook(int bookId, string title, int state, float fee = 0f);
         void RemoveBook(int bookId);
-        IBook? GetBook(int bookId);
+        void UpdateBook(int bookId, string title, int state, float fee);
+
+        string GetUserFirstName(int userId);
+        string GetUserLastName(int userId);
+
+        int GetEventUserId(int eventId);
+        int GetEventBookId(int eventId);
+        DateTime GetOccuranceTime(int eventId);
+
+        string GetBookTitle(int bookId);
+        float GetBookFee(int bookId);
+        int GetBookState(int bookId);
     }
 }

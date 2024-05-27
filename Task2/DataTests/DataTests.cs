@@ -28,10 +28,11 @@ namespace DataTests
             IDataApi dataApi = IDataApi.CreateDataRepository(connectionString);
 
             // Retrieve the user and check if it exists
-            IUser user = dataApi.GetUser(1);
-            Assert.IsNotNull(user);
-            Assert.AreEqual("John", user.FirstName);
-            Assert.AreEqual("Doe", user.LastName);
+            string firstName = dataApi.GetUserFirstName(1);
+            string lastName = dataApi.GetUserLastName(1);
+            Assert.AreEqual("John", firstName);
+            Assert.AreEqual("Doe", lastName);
+
         }
 
         [TestMethod]
@@ -41,11 +42,11 @@ namespace DataTests
             IDataApi dataApi = IDataApi.CreateDataRepository(connectionString);
 
             // Retrieve the event and check if it exists
-            IEvent evnt = dataApi.GetEvent(1);
-            Assert.IsNotNull(evnt);
-            Assert.AreEqual(1, evnt.EventId);
-            Assert.AreEqual(1, evnt.UserId);
-            Assert.AreEqual(1, evnt.BookId);
+            int userId = dataApi.GetEventUserId(1);
+            int bookId = dataApi.GetEventBookId(1);
+            Assert.AreEqual(1, userId);
+            Assert.AreEqual(1, bookId);
+
         }
 
         [TestMethod]
@@ -54,12 +55,15 @@ namespace DataTests
             string connectionString = GetConnectionString();
             IDataApi dataApi = IDataApi.CreateDataRepository(connectionString);
 
+
             // Retrieve the book and check if it exists
-            IBook book = dataApi.GetBook(1);
-            Assert.IsNotNull(book);
-            Assert.AreEqual("Book Title", book.Title);
-            Assert.AreEqual(0, book.State);
-            Assert.AreEqual(9.99f, book.Fee);
+            string title = dataApi.GetBookTitle(1);
+            int state = dataApi.GetBookState(1);
+            float fee = dataApi.GetBookFee(1);
+            Assert.AreEqual("Book Title", title);
+            Assert.AreEqual(0, state);
+            Assert.AreEqual(9.99f, fee);
+
         }
     }
 }

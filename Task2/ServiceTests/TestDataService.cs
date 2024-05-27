@@ -1,89 +1,147 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-using Data;
+﻿using Service;
 
 namespace ServiceTests
 {
-    internal class TestDataService : Service.IServiceApi
+    internal class TestDataService : IServiceApi
     {
-        private List<IUser> users;
-        private List<IEvent> events;
-        private List<IBook> books;
+        private List<TestUser> users;
+        private List<TestEvent> events;
+        private List<TestBook> books;
 
         public TestDataService()
         {
-            users = new List<IUser>();
-            events = new List<IEvent>();
-            books = new List<IBook>();
+            users = new List<TestUser>();
+            events = new List<TestEvent>();
+            books = new List<TestBook>();
         }
 
         public void AddUser(int userId, string firstName, string lastName)
         {
-            IUser user = new TestUser(userId, firstName, lastName);
+            TestUser user = new TestUser(userId, firstName, lastName);
             users.Add(user);
         }
 
         public void RemoveUser(int userId)
         {
-            IUser user = users.FirstOrDefault(u => u.UserId == userId);
+            TestUser user = users.FirstOrDefault(u => u.UserId == userId);
             if (user != null)
             {
                 users.Remove(user);
             }
         }
 
-        public IUser? GetUser(int userId)
-        {
-            return users.FirstOrDefault(u => u.UserId == userId);
-        }
-
         public void AddEvent(int eventId, int userId, int bookId, DateTime occurrenceTime)
         {
-            IEvent evnt = new TestEvent(eventId, userId, bookId, occurrenceTime);
+            TestEvent evnt = new TestEvent(eventId, userId, bookId, occurrenceTime);
             events.Add(evnt);
         }
 
         public void RemoveEvent(int eventId)
         {
-            IEvent evnt = events.FirstOrDefault(e => e.EventId == eventId);
+            TestEvent evnt = events.FirstOrDefault(e => e.EventId == eventId);
             if (evnt != null)
             {
                 events.Remove(evnt);
             }
         }
 
-        public IEvent? GetEvent(int eventId)
-        {
-            return events.FirstOrDefault(e => e.EventId == eventId);
-        }
-
         public void AddBook(int bookId, string title, int state, float fee = 0f)
         {
-            IBook book = new TestBook(bookId, title, state, fee);
+            TestBook book = new TestBook(bookId, title, state, fee);
             books.Add(book);
         }
 
         public void RemoveBook(int bookId)
         {
-            IBook book = books.FirstOrDefault(b => b.BookId == bookId);
+            TestBook book = books.FirstOrDefault(b => b.BookId == bookId);
             if (book != null)
             {
                 books.Remove(book);
             }
         }
 
-        public IBook? GetBook(int bookId)
+        public string GetUserFirstName(int userId)
         {
-            return books.FirstOrDefault(b => b.BookId == bookId);
+            TestUser user = users.FirstOrDefault(u => u.UserId == userId);
+            return user?.FirstName ?? string.Empty;
+        }
+
+        public string GetUserLastName(int userId)
+        {
+            TestUser user = users.FirstOrDefault(u => u.UserId == userId);
+            return user?.LastName ?? string.Empty;
+        }
+
+        public int GetEventUserId(int eventId)
+        {
+            TestEvent evnt = events.FirstOrDefault(e => e.EventId == eventId);
+            return evnt?.UserId ?? 0;
+        }
+
+        public int GetEventBookId(int eventId)
+        {
+            TestEvent evnt = events.FirstOrDefault(e => e.EventId == eventId);
+            return evnt?.BookId ?? 0;
+        }
+
+        public DateTime GetOccuranceTime(int eventId)
+        {
+            TestEvent evnt = events.FirstOrDefault(e => e.EventId == eventId);
+            return evnt?.OccurenceTime ?? DateTime.MinValue;
+        }
+
+        public string GetBookTitle(int bookId)
+        {
+            TestBook book = books.FirstOrDefault(b => b.BookId == bookId);
+            return book?.Title ?? string.Empty;
+        }
+
+        public float GetBookFee(int bookId)
+        {
+            TestBook book = books.FirstOrDefault(b => b.BookId == bookId);
+            return book?.Fee ?? 0f;
+        }
+
+        public int GetBookState(int bookId)
+        {
+            TestBook book = books.FirstOrDefault(b => b.BookId == bookId);
+            return book?.State ?? 0;
+        }
+
+        public void UpdateUser(int userId, string firstName, string lastName)
+        {
+            TestUser user = users.FirstOrDefault(u => u.UserId == userId);
+            if (user != null)
+            {
+                user.FirstName = firstName;
+                user.LastName = lastName;
+            }
+        }
+
+        public void UpdateEvent(int eventId, int userId, int bookId, DateTime occurrenceTime)
+        {
+            TestEvent evnt = events.FirstOrDefault(e => e.EventId == eventId);
+            if (evnt != null)
+            {
+                evnt.UserId = userId;
+                evnt.BookId = bookId;
+                evnt.OccurenceTime = occurrenceTime;
+            }
+        }
+
+        public void UpdateBook(int bookId, string title, int state, float fee)
+        {
+            TestBook book = books.FirstOrDefault(b => b.BookId == bookId);
+            if (book != null)
+            {
+                book.Title = title;
+                book.State = state;
+                book.Fee = fee;
+            }
         }
     }
 
-    internal class TestUser : IUser
+    internal class TestUser
     {
         public int UserId { get; }
         public string FirstName { get; set; }
@@ -97,7 +155,7 @@ namespace ServiceTests
         }
     }
 
-    internal class TestEvent : IEvent
+    internal class TestEvent
     {
         public int EventId { get; }
         public int UserId { get; set; }
@@ -113,7 +171,7 @@ namespace ServiceTests
         }
     }
 
-    internal class TestBook : IBook
+    internal class TestBook
     {
         public int BookId { get; }
         public string Title { get; set; }

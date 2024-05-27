@@ -1,12 +1,11 @@
 using Service;
-using Data;
 
 namespace ServiceTests
 {
     [TestClass]
     public class ServiceTests
     {
-        private TestDataService testDataService;
+        private IServiceApi testDataService;
 
         [TestInitialize]
         public void Initialize()
@@ -22,12 +21,11 @@ namespace ServiceTests
             string lastName = "Doe";
 
             testDataService.AddUser(userId, firstName, lastName);
-            IUser user = testDataService.GetUser(userId);
+            string userFirstName = testDataService.GetUserFirstName(userId);
+            string userLastName = testDataService.GetUserLastName(userId);
 
-            Assert.IsNotNull(user);
-            Assert.AreEqual(userId, user.UserId);
-            Assert.AreEqual(firstName, user.FirstName);
-            Assert.AreEqual(lastName, user.LastName);
+            Assert.AreEqual(firstName, userFirstName);
+            Assert.AreEqual(lastName, userLastName);
         }
 
         [TestMethod]
@@ -39,9 +37,11 @@ namespace ServiceTests
             testDataService.AddUser(userId, firstName, lastName);
 
             testDataService.RemoveUser(userId);
-            IUser user = testDataService.GetUser(userId);
+            string userFirstName = testDataService.GetUserFirstName(userId);
+            string userLastName = testDataService.GetUserLastName(userId);
 
-            Assert.IsNull(user);
+            Assert.AreEqual("", userFirstName);
+            Assert.AreEqual("", userLastName);
         }
 
         [TestMethod]
@@ -53,12 +53,13 @@ namespace ServiceTests
             DateTime occurrenceTime = DateTime.Now;
 
             testDataService.AddEvent(eventId, userId, bookId, occurrenceTime);
-            IEvent evnt = testDataService.GetEvent(eventId);
+            int eventUserId = testDataService.GetEventUserId(eventId);
+            int eventBookId = testDataService.GetEventBookId(eventId);
+            DateTime eventOccurrenceTime = testDataService.GetOccuranceTime(eventId);
 
-            Assert.IsNotNull(evnt);
-            Assert.AreEqual(eventId, evnt.EventId);
-            Assert.AreEqual(userId, evnt.UserId);
-            Assert.AreEqual(bookId, evnt.BookId);
+            Assert.AreEqual(userId, eventUserId);
+            Assert.AreEqual(bookId, eventBookId);
+            Assert.AreEqual(occurrenceTime, eventOccurrenceTime);
         }
 
         [TestMethod]
@@ -71,9 +72,13 @@ namespace ServiceTests
             testDataService.AddEvent(eventId, userId, bookId, occurrenceTime);
 
             testDataService.RemoveEvent(eventId);
-            IEvent evnt = testDataService.GetEvent(eventId);
+            int eventUserId = testDataService.GetEventUserId(eventId);
+            int eventBookId = testDataService.GetEventBookId(eventId);
+            DateTime eventOccurrenceTime = testDataService.GetOccuranceTime(eventId);
 
-            Assert.IsNull(evnt);
+            Assert.AreEqual(0, eventUserId);
+            Assert.AreEqual(0, eventBookId);
+            Assert.AreEqual(default(DateTime), eventOccurrenceTime);
         }
 
         [TestMethod]
@@ -85,13 +90,13 @@ namespace ServiceTests
             float fee = 10.99f;
 
             testDataService.AddBook(bookId, title, state, fee);
-            IBook book = testDataService.GetBook(bookId);
+            string bookTitle = testDataService.GetBookTitle(bookId);
+            float bookFee = testDataService.GetBookFee(bookId);
+            int bookState = testDataService.GetBookState(bookId);
 
-            Assert.IsNotNull(book);
-            Assert.AreEqual(bookId, book.BookId);
-            Assert.AreEqual(title, book.Title);
-            Assert.AreEqual(state, book.State);
-            Assert.AreEqual(fee, book.Fee);
+            Assert.AreEqual(title, bookTitle);
+            Assert.AreEqual(fee, bookFee);
+            Assert.AreEqual(state, bookState);
         }
 
         [TestMethod]
@@ -104,9 +109,13 @@ namespace ServiceTests
             testDataService.AddBook(bookId, title, state, fee);
 
             testDataService.RemoveBook(bookId);
-            IBook book = testDataService.GetBook(bookId);
+            string bookTitle = testDataService.GetBookTitle(bookId);
+            float bookFee = testDataService.GetBookFee(bookId);
+            int bookState = testDataService.GetBookState(bookId);
 
-            Assert.IsNull(book);
+            Assert.AreEqual("", bookTitle);
+            Assert.AreEqual(0, bookFee);
+            Assert.AreEqual(0, bookState);
         }
     }
 }

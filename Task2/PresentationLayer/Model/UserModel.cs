@@ -33,8 +33,6 @@ internal class User : IUser
 
     public void Update()
     {
-        var user = ServiceApi.GetUser(UserId);
-        user.FirstName = FirstName;
-        user.LastName = LastName;
+        ServiceApi.UpdateUser(UserId, FirstName, LastName);
     }
 }

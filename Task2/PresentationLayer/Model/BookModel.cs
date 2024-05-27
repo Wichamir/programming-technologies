@@ -31,9 +31,6 @@ internal class Book : IBook
 
     public void Update()
     {
-        var book = ServiceApi.GetBook(BookId);
-        book.Title = Title;
-        book.Fee = Fee;
-        book.State = State;
+        ServiceApi.UpdateBook(BookId, Title, State, Fee);
     }
 }

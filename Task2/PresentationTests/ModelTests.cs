@@ -1,7 +1,5 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Presentation.Model;
 using Service;
-using System;
 
 namespace PresentationTests
 {
