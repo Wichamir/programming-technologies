@@ -3,22 +3,26 @@ using Data;
 namespace DataTests
 {
     [TestClass]
+    [DeploymentItem(@"Database.mdf")]
     public class DataTests
     {
-        public string GetConnectionString()
+        private static string m_ConnectionString;
+
+        [ClassInitialize]
+        public static void ClassInitializeMethod(TestContext context)
         {
             string _DBRelativePath = @"Database.mdf";
             string _TestingWorkingFolder = Environment.CurrentDirectory;
             string _DBPath = Path.Combine(_TestingWorkingFolder, _DBRelativePath);
             FileInfo _databaseFile = new FileInfo(_DBPath);
             Assert.IsTrue(_databaseFile.Exists, $"{Environment.CurrentDirectory}");
-            return $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={_DBPath};Integrated Security = True; Connect Timeout = 30;";
+            m_ConnectionString = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={_DBPath};Integrated Security = True; Connect Timeout = 30;";
         }
 
         [TestMethod]
         public void TestDatabaseConnection()
         {
-            string connectionString = GetConnectionString();
+            string connectionString = m_ConnectionString;
             IDataApi dataApi = IDataApi.CreateDataRepository(connectionString);
             Assert.IsNotNull(dataApi);
         }
@@ -26,7 +30,7 @@ namespace DataTests
         [TestMethod]
         public void TestUser()
         {
-            string connectionString = GetConnectionString();
+            string connectionString = m_ConnectionString;
             IDataApi dataApi = IDataApi.CreateDataRepository(connectionString);
 
             // Retrieve the user and check if it exists
@@ -40,7 +44,7 @@ namespace DataTests
         [TestMethod]
         public void TestEvent()
         {
-            string connectionString = GetConnectionString();
+            string connectionString = m_ConnectionString;
             IDataApi dataApi = IDataApi.CreateDataRepository(connectionString);
 
             // Retrieve the event and check if it exists
@@ -54,7 +58,7 @@ namespace DataTests
         [TestMethod]
         public void TestBook()
         {
-            string connectionString = GetConnectionString();
+            string connectionString = m_ConnectionString;
             IDataApi dataApi = IDataApi.CreateDataRepository(connectionString);
 
 
