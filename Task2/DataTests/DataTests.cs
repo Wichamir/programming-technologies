@@ -3,7 +3,7 @@ using Data;
 namespace DataTests
 {
     [TestClass]
-    [DeploymentItem(@"Database.mdf")]
+    [DeploymentItem(@"Database.mdf", "@Database.mdf")]
     public class DataTests
     {
         private static string m_ConnectionString;
@@ -11,11 +11,10 @@ namespace DataTests
         [ClassInitialize]
         public static void ClassInitializeMethod(TestContext context)
         {
+            
             string _DBRelativePath = @"Database.mdf";
-            string _TestingWorkingFolder = Environment.CurrentDirectory;
+            string _TestingWorkingFolder = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
             string _DBPath = Path.Combine(_TestingWorkingFolder, _DBRelativePath);
-            FileInfo _databaseFile = new FileInfo(_DBPath);
-            Assert.IsTrue(_databaseFile.Exists, $"{Environment.CurrentDirectory}");
             m_ConnectionString = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={_DBPath};Integrated Security = True; Connect Timeout = 30;";
         }
 
@@ -33,7 +32,6 @@ namespace DataTests
             string connectionString = m_ConnectionString;
             IDataApi dataApi = IDataApi.CreateDataRepository(connectionString);
 
-            // Retrieve the user and check if it exists
             string firstName = dataApi.GetUserFirstName(1);
             string lastName = dataApi.GetUserLastName(1);
             Assert.AreEqual("John", firstName);
@@ -47,7 +45,6 @@ namespace DataTests
             string connectionString = m_ConnectionString;
             IDataApi dataApi = IDataApi.CreateDataRepository(connectionString);
 
-            // Retrieve the event and check if it exists
             int userId = dataApi.GetEventUserId(1);
             int bookId = dataApi.GetEventBookId(1);
             Assert.AreEqual(1, userId);
