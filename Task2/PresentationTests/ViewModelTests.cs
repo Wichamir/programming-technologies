@@ -1,6 +1,7 @@
 ﻿using Presentation.Model;
 using Presentation.ViewModel;
 using Service;
+using System.Text;
 
 namespace PresentationTests
 {
@@ -42,25 +43,73 @@ namespace PresentationTests
             Assert.IsTrue(selectedItem.UpdateCalled);
         }
 
+        [TestMethod]
+        public void RandomNumberTest()
+        {
+            var viewModel = new TestViewModel();
+            var random = new Random();
+
+            for (int i = 0; i < 10; i++)
+            {
+                var number = random.Next();
+
+                var testModel = new TestModel();
+                testModel.Number = number;
+                viewModel.Items.Add(testModel);
+            }
+
+            Assert.AreEqual(10, viewModel.Items.Count);
+        }
+
+        [TestMethod]
+        public void RandomCharsTest()
+        {
+            var viewModel = new TestViewModel();
+            var random = new Random();
+
+            for (int i = 0; i < 10; i++)
+            {
+                var chars = Guid.NewGuid().ToString();
+
+                var testModel = new TestModel();
+                testModel.Chars = chars;
+                viewModel.Items.Add(testModel);
+            }
+
+            Assert.AreEqual(10, viewModel.Items.Count);
+        }
+
+        [TestMethod]
+        public void RandomCharsTest2()
+        {
+            var viewModel = new TestViewModel();
+
+            for (int i = 0; i < 10; i++)
+            {
+                var chars = GetRandomString(10);
+
+                var testModel = new TestModel();
+                testModel.Chars = chars;
+                viewModel.Items.Add(testModel);
+            }
+
+            Assert.AreEqual(10, viewModel.Items.Count);
+        }
+
         private class TestModel : IModel
         {
             public bool UpdateCalled { get; private set; }
             public IServiceApi ServiceApi { get; set; }
+            public int Number { get; set; }
+            public string Chars { get; set; }
 
             public void Update()
             {
                 UpdateCalled = true;
             }
 
-            public void Remove()
-            {
-
-            }
-
-            public void Add()
-            {
-
-            }
+            public void Remove() {}
+            public void Add() {}
         }
 
         private class TestViewModel : ViewModel<TestModel>
@@ -69,6 +118,20 @@ namespace PresentationTests
             {
                 Items = new System.Collections.ObjectModel.ObservableCollection<TestModel>();
             }
+        }
+
+        private static string GetRandomString(int length)
+        {
+            var rand = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var builder = new StringBuilder();
+
+            for (int i = 0; i < length; i++)
+            {
+                builder.Append(chars[rand.Next(chars.Length)]);
+            }
+
+            return builder.ToString();
         }
     }
 }
