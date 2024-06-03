@@ -139,7 +139,7 @@ internal class DataRepository : IDataApi
     {
         using (DataClassesDataContext db = new(connectionString))
         {
-            var user = (from u in db.Users where u.UserId == userId select u).FirstOrDefault();
+            var user = db.Users.Where(u => u.UserId == userId).FirstOrDefault();
             return user?.FirstName;
         }
     }
@@ -148,7 +148,7 @@ internal class DataRepository : IDataApi
     {
         using (DataClassesDataContext db = new(connectionString))
         {
-            var user = (from u in db.Users where u.UserId == userId select u).FirstOrDefault();
+            var user = db.Users.Where(u => u.UserId == userId).FirstOrDefault();
             return user?.LastName;
         }
     }
@@ -157,7 +157,7 @@ internal class DataRepository : IDataApi
     {
         using (DataClassesDataContext db = new(connectionString))
         {
-            var @event = (from e in db.Events where e.EventId == eventId select e).FirstOrDefault();
+            var @event = db.Events.Where(e => e.EventId == eventId).FirstOrDefault();
             return @event?.UserId ?? 0;
         }
     }
@@ -166,7 +166,7 @@ internal class DataRepository : IDataApi
     {
         using (DataClassesDataContext db = new(connectionString))
         {
-            var @event = (from e in db.Events where e.EventId == eventId select e).FirstOrDefault();
+            var @event = db.Events.Where(e => e.EventId == eventId).FirstOrDefault();
             return @event?.BookId ?? 0;
         }
     }
@@ -175,7 +175,7 @@ internal class DataRepository : IDataApi
     {
         using (DataClassesDataContext db = new(connectionString))
         {
-            var @event = (from e in db.Events where e.EventId == eventId select e).FirstOrDefault();
+            var @event = db.Events.Where(e => e.EventId == eventId).FirstOrDefault();
             return @event?.OccuranceTime ?? DateTime.MinValue;
         }
     }
@@ -184,7 +184,7 @@ internal class DataRepository : IDataApi
     {
         using (DataClassesDataContext db = new(connectionString))
         {
-            var book = (from b in db.Books where b.BookId == bookId select b).FirstOrDefault();
+            var book = db.Books.Where(b => b.BookId == bookId).FirstOrDefault();
             return book?.Title;
         }
     }
@@ -193,7 +193,7 @@ internal class DataRepository : IDataApi
     {
         using (DataClassesDataContext db = new(connectionString))
         {
-            var book = (from b in db.Books where b.BookId == bookId select b).FirstOrDefault();
+            var book = db.Books.Where(b => b.BookId == bookId).FirstOrDefault();
             return book?.Fee ?? 0f;
         }
     }
@@ -202,7 +202,7 @@ internal class DataRepository : IDataApi
     {
         using (DataClassesDataContext db = new(connectionString))
         {
-            var book = (from b in db.Books where b.BookId == bookId select b).FirstOrDefault();
+            var book = db.Books.Where(b => b.BookId == bookId).FirstOrDefault();
             return book?.State ?? 0;
         }
     }
@@ -211,7 +211,7 @@ internal class DataRepository : IDataApi
     {
         using (DataClassesDataContext db = new(connectionString))
         {
-            var user = (from u in db.Users where u.UserId == userId select u).FirstOrDefault();
+            var user = db.Users.Where(u => u.UserId == userId).FirstOrDefault();
             if (user != null)
             {
                 user.FirstName = firstName;
@@ -225,7 +225,7 @@ internal class DataRepository : IDataApi
     {
         using (DataClassesDataContext db = new(connectionString))
         {
-            var @event = (from e in db.Events where e.EventId == eventId select e).FirstOrDefault();
+            var @event = db.Events.Where(e => e.EventId == eventId).FirstOrDefault();
             if (@event != null)
             {
                 @event.UserId = userId;
@@ -240,7 +240,7 @@ internal class DataRepository : IDataApi
     {
         using (DataClassesDataContext db = new(connectionString))
         {
-            var book = (from b in db.Books where b.BookId == bookId select b).FirstOrDefault();
+            var book = db.Books.Where(b => b.BookId == bookId).FirstOrDefault();
             if (book != null)
             {
                 book.Title = title;
