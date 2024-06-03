@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Service;
 
 namespace Presentation.ViewModel
 {
-    class EventListViewModel : ViewModel<Model.Event>
+    internal class EventListViewModel : ViewModel<Model.Event>
     {
+        public EventListViewModel() { }
+
+        public EventListViewModel(IServiceApi serviceApi) : base(serviceApi)
+        {
+        }
     }
 }

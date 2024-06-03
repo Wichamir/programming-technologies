@@ -13,6 +13,7 @@ internal class Event : IEvent
 
     public Event()
     {
+        ServiceApi = IServiceApi.CreateDataService("");
     }
 
     public Event(IServiceApi serviceApi, int eid, int uid, int bid, DateTime time)

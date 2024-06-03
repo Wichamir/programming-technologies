@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Service;
 
 namespace Presentation.ViewModel
 {
-    class BookListViewModel : ViewModel<Model.Book>
+    internal class BookListViewModel : ViewModel<Model.Book>
     {
+        public BookListViewModel() { }
+
+        public BookListViewModel(IServiceApi serviceApi) : base(serviceApi)
+        {
+        }
     }
 }

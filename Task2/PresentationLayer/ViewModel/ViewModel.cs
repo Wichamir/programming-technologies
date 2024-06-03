@@ -1,12 +1,6 @@
 ﻿using Service;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Presentation.ViewModel
 {
@@ -40,12 +34,16 @@ namespace Presentation.ViewModel
 
         public ViewModel()
         {
-            serviceApi = IServiceApi.CreateDataService("");
+        }
+
+        public ViewModel(IServiceApi serviceApi)
+        {
+            this.serviceApi = serviceApi;
         }
 
         public void Add()
         {
-            var newItem = new T
+            var newItem = new T()
             {
                 ServiceApi = serviceApi
             };

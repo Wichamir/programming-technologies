@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using Service;
+using System.Windows.Controls;
 
 namespace Presentation.View
 {
@@ -10,7 +11,7 @@ namespace Presentation.View
         public UserListView()
         {
             InitializeComponent();
-            DataContext = new Presentation.ViewModel.UserListViewModel();
+            DataContext = new ViewModel.UserListViewModel();
         }
     }
 }

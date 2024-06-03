@@ -11,6 +11,7 @@ internal class User : IUser
 
     public User()
     {
+        ServiceApi = IServiceApi.CreateDataService("");
     }
 
     public User(IServiceApi serviceApi, int uid, string fName, string lName)

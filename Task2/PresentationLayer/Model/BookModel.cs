@@ -12,6 +12,7 @@ internal class Book : IBook
 
     public Book()
     {
+        ServiceApi = IServiceApi.CreateDataService("");
     }
 
     public Book(IServiceApi serviceApi)

@@ -1,7 +1,7 @@
 ﻿using Presentation.Model;
 using Presentation.ViewModel;
-using Service;
 using System.Text;
+using Service;
 
 namespace PresentationTests
 {
@@ -11,7 +11,7 @@ namespace PresentationTests
         [TestMethod]
         public void AddCommandAddsNewItemToItemsCollection()
         {
-            var viewModel = new TestViewModel();
+            var viewModel = new TestViewModel(new TestService());
 
             viewModel.AddCommand.Execute(null);
 
@@ -21,7 +21,7 @@ namespace PresentationTests
         [TestMethod]
         public void RemoveCommandRemovesSelectedItemFromItemsCollection()
         {
-            var viewModel = new TestViewModel();
+            var viewModel = new TestViewModel(new TestService());
             viewModel.Items.Add(new TestModel());
 
             viewModel.SelectedItem = viewModel.Items[0];
@@ -33,7 +33,7 @@ namespace PresentationTests
         [TestMethod]
         public void UpdateCommandCallsUpdateMethodOfSelectedItem()
         {
-            var viewModel = new TestViewModel();
+            var viewModel = new TestViewModel(new TestService());
             var selectedItem = new TestModel();
             viewModel.Items.Add(selectedItem);
 
@@ -46,7 +46,7 @@ namespace PresentationTests
         [TestMethod]
         public void RandomNumberTest()
         {
-            var viewModel = new TestViewModel();
+            var viewModel = new TestViewModel(new TestService());
             var random = new Random();
 
             for (int i = 0; i < 10; i++)
@@ -64,7 +64,7 @@ namespace PresentationTests
         [TestMethod]
         public void RandomCharsTest()
         {
-            var viewModel = new TestViewModel();
+            var viewModel = new TestViewModel(new TestService());
             var random = new Random();
 
             for (int i = 0; i < 10; i++)
@@ -82,7 +82,7 @@ namespace PresentationTests
         [TestMethod]
         public void RandomCharsTest2()
         {
-            var viewModel = new TestViewModel();
+            var viewModel = new TestViewModel(new TestService());
 
             for (int i = 0; i < 10; i++)
             {
@@ -114,7 +114,7 @@ namespace PresentationTests
 
         private class TestViewModel : ViewModel<TestModel>
         {
-            public TestViewModel()
+            public TestViewModel(IServiceApi serviceApi) : base(serviceApi)
             {
                 Items = new System.Collections.ObjectModel.ObservableCollection<TestModel>();
             }
@@ -133,5 +133,7 @@ namespace PresentationTests
 
             return builder.ToString();
         }
+
+
     }
 }
